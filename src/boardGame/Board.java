@@ -1,5 +1,7 @@
 package boardGame;
 
+import java.util.Arrays;
+
 public class Board {
     private int rows;
     private int columns;
@@ -14,11 +16,19 @@ public class Board {
     }
     public void setRows(int rows) {
         this.rows = rows;
+        pieces = new Piece[rows][columns];
     }
     public int getColumns() {
         return columns;
     }
     public void setColumns(int columns) {
         this.columns = columns;
+        pieces = new Piece[rows][columns];
+    }
+    public Piece piece(int row, int column) {
+        return pieces[row][column];
+    }
+    public Piece piece(Piece piece) {
+        return pieces[piece.position.getRow()][piece.position.getColumn()];
     }
 }
