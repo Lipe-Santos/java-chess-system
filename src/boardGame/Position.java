@@ -3,8 +3,6 @@ package boardGame;
 public class Position {
     private int row;
     private int column;
-    public Position() {
-    }
     public Position(int row, int column) {
         this.row = row;
         this.column = column;
@@ -12,15 +10,10 @@ public class Position {
     public int getRow() {
         return row;
     }
-    public void setRow(int row) {
-        this.row = row;
-    }
     public int getColumn() {
         return column;
     }
-    public void setColumn(int column) {
-        this.column = column;
-    }
+    //I will not allow the position to be freely changed
     @Override
     public String toString() {
         return "Position: " + row + ", " + column;
