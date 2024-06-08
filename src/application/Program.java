@@ -1,11 +1,11 @@
 package application;
 
+import application.utils.Utils;
 import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Exception.ChessException;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Program {
@@ -41,34 +41,16 @@ public class Program {
         do {
         System.out.print(label);
             try {
-                String userInput = readString(sc);
-                char column = readColumn(userInput);
-                int row = readRow(userInput);
+                String userInput = Utils.readString(sc);
+                char column = Utils.readColumn(userInput);
+                int row = Utils.readRow(userInput);
                 chessPosition = new ChessPosition(column, row);
             } catch (RuntimeException err) {
                 System.out.println(err.getMessage());
+            } finally {
+                System.out.println();
             }
         } while (chessPosition == null);
-        System.out.println();
         return chessPosition;
     }
-
-    public static char readColumn(String userInput) {
-        return userInput.charAt(0);
-    }
-
-    public static int readRow(String userInput) {
-        if (!Character.isDigit(userInput.charAt(1))) {
-            throw new InputMismatchException("Error row must be a number between 1 - " + ChessMatch.BOARD_DIMENSIONS);
-        }
-        return Integer.parseInt(userInput.substring(1));
-    }
-
-   public static String readString(Scanner sc) {
-        String userInput = sc.nextLine();
-        if (userInput.length() != 2) {
-            throw new InputMismatchException("Error reading ChessPosition. Valid values from a1 to h8");
-        }
-        return userInput;
-   }
 }

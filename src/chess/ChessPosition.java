@@ -57,7 +57,7 @@ public class ChessPosition {
     }
 
     private boolean rowIsValid(int row) {
-        return row >= 0 && row <= ChessMatch.BOARD_DIMENSIONS;
+        return row > 0 && row <= ChessMatch.BOARD_DIMENSIONS;
     }
 
     private boolean columnIsValid(int column) {
