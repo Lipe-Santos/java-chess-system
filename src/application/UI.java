@@ -46,6 +46,11 @@ public class UI {
         return sb.toString();
     }
 
+    public static void clearScreen() {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
+    }
+
     private static String getPiece(ChessPiece piece) {
         if (piece != null) {
             //I'll use yellow instead of black for the terminal background
