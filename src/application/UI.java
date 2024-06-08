@@ -2,7 +2,10 @@ package application;
 
 import boardGame.Piece;
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.Color;
+
+import java.util.Scanner;
 
 public class UI {
     //text colors
