@@ -34,7 +34,7 @@ public class UI {
         for (int i = 0; i < pieces.length; i++) {
             sb.append(pieces.length - i).append(" ");
             for (int j = 0; j < pieces[0].length; j++) {
-                sb.append(getPiece(pieces[i][j])).append(" ");
+                sb.append(getPiece(pieces[i][j], false)).append(" ");
             }
             sb.append("\n");
         }
@@ -46,17 +46,34 @@ public class UI {
         return sb.toString();
     }
 
-    public static void clearScreen() {
-        System.out.println("\033[H\033[2J");
-        System.out.flush();
+    public static String printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < pieces.length; i++) {
+            sb.append(pieces.length - i).append(" ");
+            for (int j = 0; j < pieces[0].length; j++) {
+                sb.append(getPiece(pieces[i][j], possibleMoves[i][j])).append(" ");
+            }
+            sb.append("\n");
+        }
+        sb.append("  ");
+        //print the letters on the board
+        for (int i = 0; i < pieces.length; i++) {
+            sb.append((char) ('a' + i)).append(" ");
+        }
+        return sb.toString();
     }
-
-    private static String getPiece(ChessPiece piece) {
+    private static String getPiece(ChessPiece piece, boolean background) {
+        String s = "";
+        if (background) {
+            s += ANSI_BLUE_BACKGROUND;
+        }
         if (piece != null) {
             //I'll use yellow instead of black for the terminal background
-            return (piece.getColor() == Color.BLACK ? ANSI_YELLOW + piece : ANSI_WHITE + piece) + ANSI_RESET;
+            s += piece.getColor() == Color.BLACK ? ANSI_YELLOW + piece : ANSI_WHITE + piece;
         } else {
-            return "-";
+            s += "-" ;
         }
+        s += ANSI_RESET;
+        return s;
     }
 }

@@ -44,16 +44,23 @@ public class Board {
         pieces[position.getRow()][position.getColumn()] = null;
         return removed;
     }
-    private boolean positionExists(Position position) {
+    public boolean positionExists(Position position) {
         return positionExists(position.getRow(), position.getColumn());
     }
-    private boolean positionExists(int row, int column) {
-        return row >= 0 && row <= rows && column >= 0 && column <= columns;
+    public boolean positionExists(int row, int column) {
+        return row >= 0 && row < rows && column >= 0 && column < columns;
     }
     public boolean thereIsAPiece(Position position) {
         if (!positionExists(position)) {
             throw new BoardException("Position not on the board");
         }
         return piece(position) != null;
+    }
+
+    public boolean thereIsAPiece(int row, int col) {
+        if (!positionExists(row, col)) {
+            throw new BoardException("Position not on the board");
+        }
+        return piece(row, col) != null;
     }
 }
