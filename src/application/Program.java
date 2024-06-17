@@ -17,7 +17,7 @@ public class Program {
         Scanner sc = new Scanner(System.in);
         ChessMatch chessMatch = new ChessMatch();
         while (true) {
-            System.out.println(UI.printBoard(chessMatch.pieces()));
+            System.out.println(UI.printMatch(chessMatch));
             ChessPiece captured = performChessMove(chessMatch, sc);
         }
     }
@@ -40,7 +40,7 @@ public class Program {
     public static ChessPosition readChessPosition(Scanner sc, String label) {
         ChessPosition chessPosition = null;
         do {
-        System.out.print(label);
+            System.out.print(label);
             try {
                 String userInput = Utils.readString(sc);
                 char column = Utils.readColumn(userInput);

@@ -9,12 +9,26 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
     //This class will have the rules of the game
+    private int turn;
+    private Color currentPlayer;
     public static final int BOARD_DIMENSIONS = 8;
     private final Board board;
     public ChessMatch() {
         board = new Board(ChessMatch.BOARD_DIMENSIONS, ChessMatch.BOARD_DIMENSIONS);
+        turn = 1;
+        currentPlayer = Color.WHITE;
         //When a new game is created, I have to distribute the pieces
         initialSetup();
+    }
+    public int getTurn() {
+        return turn;
+    }
+    public Color getCurrentPlayer() {
+        return currentPlayer;
+    }
+    public void nextTurn() {
+        turn++;
+        currentPlayer = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
     }
     public ChessPiece[][] pieces() {
         ChessPiece[][] chessPieces = new ChessPiece[ChessMatch.BOARD_DIMENSIONS][ChessMatch.BOARD_DIMENSIONS];
@@ -37,6 +51,7 @@ public class ChessMatch {
         validateSourcePosition(source);
         validateTargetPosition(source, target);
         Piece capturedPiece = makeMove(source, target);
+        nextTurn();
         return (ChessPiece) capturedPiece;
     }
 
@@ -51,9 +66,16 @@ public class ChessMatch {
         if (!board.thereIsAPiece(position)) {
             throw new ChessException("There is no piece on source position");
         }
+        if (!playerTurn(position)) {
+            throw new ChessException("The chosen piece is not yours");
+        }
         if(!board.piece(position).isThereAnyPossibleMove()) {
             throw new ChessException("There is no possible moves for the chosen piece");
         }
+    }
+
+    private boolean playerTurn(Position position) {
+        return ((ChessPiece) board.piece(position)).getColor() == currentPlayer;
     }
 
     private void validateTargetPosition(Position source, Position target) {

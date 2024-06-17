@@ -1,6 +1,7 @@
 package application;
 
 import boardGame.Piece;
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -28,6 +29,9 @@ public class UI {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+    public static String printMatch(ChessMatch chessMatch) {
+        return printBoard(chessMatch.pieces()) + "\nTurn: " + chessMatch.getTurn()  + "\nWaiting player: " + chessMatch.getCurrentPlayer();
+    }
 
     public static String printBoard(ChessPiece[][] pieces) {
         StringBuilder sb = new StringBuilder();

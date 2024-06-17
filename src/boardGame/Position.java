@@ -22,13 +22,6 @@ public class Position {
     public int getColumn() {
         return column;
     }
-    public void setPosition(int row, int column) {
-        setRow(row);
-        setColumn(column);
-    }
-    public void setPosition(Position position) {
-        setPosition(position.row, position.column);
-    }
     @Override
     public String toString() {
         return "Position: " + row + ", " + column;

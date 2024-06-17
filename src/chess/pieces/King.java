@@ -30,12 +30,10 @@ public class King extends ChessPiece {
         int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
 
         for (int i = 0; i < rowOffsets.length; i++) {
-            Position newPosition = new Position(
-                    position.getRow() + rowOffsets[i],
-                    position.getColumn() + colOffsets[i]
-            );
-            if (verifyPosition(newPosition)) {
-                matrix[newPosition.getRow()][newPosition.getColumn()] = true;
+            initialPosition.setRow(position.getRow() + rowOffsets[i]);
+            initialPosition.setColumn(position.getColumn() + colOffsets[i]);
+            if (verifyPosition(initialPosition)) {
+                matrix[initialPosition.getRow()][initialPosition.getColumn()] = true;
             }
         }
     }
