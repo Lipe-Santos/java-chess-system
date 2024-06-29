@@ -13,6 +13,9 @@ public abstract class ChessPiece extends Piece {
     public Color getColor() {
         return color;
     }
+    public ChessPosition getChessPosition() {
+        return ChessPosition.fromPosition(this.position);
+    }
     //I don't want to allow the color of the piece to be changed. For that reason there is no set for color
     protected boolean isThereOpponentPiece(Position position) {
         ChessPiece chessPiece = (ChessPiece) getBoard().piece(position);

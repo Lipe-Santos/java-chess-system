@@ -6,6 +6,8 @@ import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UI {
@@ -29,8 +31,15 @@ public class UI {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    public static String printMatch(ChessMatch chessMatch) {
-        return printBoard(chessMatch.pieces()) + "\nTurn: " + chessMatch.getTurn()  + "\nWaiting player: " + chessMatch.getCurrentPlayer();
+    public static String printMatch(ChessMatch chessMatch, ArrayList<ChessPiece> capturedPieces) {
+        return printBoard(chessMatch.pieces()) +
+                "\n\n" +
+                printCapturedPieces(capturedPieces) +
+                "\n\nTurn: " +
+                chessMatch.getTurn()  +
+                "\nWaiting player: " +
+                chessMatch.getCurrentPlayer() +
+                (chessMatch.isCheck() ? "\nCHECK!" : "");
     }
 
     public static String printBoard(ChessPiece[][] pieces) {
@@ -79,5 +88,13 @@ public class UI {
         }
         s += ANSI_RESET;
         return s;
+    }
+
+    private static String printCapturedPieces(ArrayList<ChessPiece> captured) {
+        String capturedPieces = "Captured pieces: ";
+        List<ChessPiece> whites =  captured.stream().filter(piece -> piece.getColor() == Color.WHITE).toList();
+        List<ChessPiece> blacks =  captured.stream().filter(piece -> piece.getColor() == Color.BLACK).toList();
+        capturedPieces += "\nWhite: " + ANSI_WHITE + whites + ANSI_RESET + "\n" + ANSI_YELLOW + "Black: " +  blacks + ANSI_RESET;
+        return capturedPieces;
     }
 }
