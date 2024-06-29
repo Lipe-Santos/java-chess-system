@@ -16,6 +16,7 @@ public class ChessMatch {
     private Color currentPlayer;
     private final ArrayList<ChessPiece> piecesOnTheBoard = new ArrayList<>();
     private final ArrayList<ChessPiece> capturedPieces = new ArrayList<>();
+    private boolean checkMate;
     private boolean check;
     public static final int BOARD_DIMENSIONS = 8;
     private final Board board;
@@ -37,6 +38,9 @@ public class ChessMatch {
     }
     public boolean isCheck() {
         return check;
+    }
+    public boolean isCheckMate() {
+        return checkMate;
     }
     public void nextTurn() {
         turn++;
@@ -68,7 +72,11 @@ public class ChessMatch {
             throw new ChessException("You can't put yourself in check");
         }
         check = testCheck(opponent(currentPlayer));
-        nextTurn();
+        if (testCheckMate(opponent(currentPlayer))) {
+            checkMate = true;
+        } else {
+            nextTurn();
+        }
         return (ChessPiece) capturedPiece;
     }
 
@@ -143,13 +151,34 @@ public class ChessMatch {
         return false;
     }
 
-    private void initialSetup() {
-        placeNewPiece('a', 8, new Rook(board, Color.BLACK));
-        placeNewPiece('d', 8, new King(board, Color.BLACK));
-        placeNewPiece('h', 8, new Rook(board, Color.BLACK));
+    private boolean testCheckMate(Color color) {
+        if (!testCheck(color)) return false;
+        List<ChessPiece> pieces = piecesOnTheBoard.stream().filter(piece -> piece.getColor() == color).toList();
+        for (ChessPiece piece : pieces) {
+            boolean[][] matrix = piece.possibleMoves();
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix[i].length; j++) {
+                    if (matrix[i][j]) {
+                        Position source = piece.getChessPosition().toPosition();
+                        Position target = new Position(i, j);
+                        Piece capturedPiece = makeMove(source, target);
+                        boolean testCheck = testCheck(color);
+                        undoMove(source, target, capturedPiece);
+                        if (!testCheck) return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
-        placeNewPiece('a', 1, new Rook(board, Color.WHITE));
+    private void initialSetup() {
+        placeNewPiece('h', 8, new Rook(board, Color.BLACK));
+        placeNewPiece('a', 8, new King(board, Color.BLACK));
+        placeNewPiece('b', 8, new Rook(board, Color.BLACK));
+
+        placeNewPiece('b', 1, new Rook(board, Color.WHITE));
         placeNewPiece('d', 1, new King(board, Color.WHITE));
-        placeNewPiece('h', 1, new Rook(board, Color.WHITE));
+        placeNewPiece('h', 7, new Rook(board, Color.WHITE));
     }
 }

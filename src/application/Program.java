@@ -17,10 +17,11 @@ public class Program {
     public static void startMatch() {
         Scanner sc = new Scanner(System.in);
         ChessMatch chessMatch = new ChessMatch();
-        while (true) {
+        while (!chessMatch.isCheckMate()) {
             System.out.println(UI.printMatch(chessMatch, chessMatch.getCapturedPieces()));
             performChessMove(chessMatch, sc);
         }
+        System.out.println(UI.printMatch(chessMatch, chessMatch.getCapturedPieces()));
     }
 
     public static void performChessMove(ChessMatch chessMatch, Scanner sc) {
