@@ -37,8 +37,4 @@ public class King extends ChessPiece {
             }
         }
     }
-
-    private boolean verifyPosition(Position position) {
-        return getBoard().positionExists(position) && (isThereOpponentPiece(position) || !getBoard().thereIsAPiece(position));
-    }
 }

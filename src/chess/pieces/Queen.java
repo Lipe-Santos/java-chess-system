@@ -1,19 +1,13 @@
 package chess.pieces;
 
 import boardGame.Board;
-import boardGame.Position;
 import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.Color;
 
-public class Rook extends ChessPiece {
-    public Rook(Board board, Color color) {
+public class Queen extends ChessPiece {
+    public Queen(Board board, Color color) {
         super(board, color);
-    }
-
-    @Override
-    public String toString() {
-        return "R";
     }
 
     @Override
@@ -27,6 +21,19 @@ public class Rook extends ChessPiece {
         checkDirection(matrix, 0, -1);
         //below
         checkDirection(matrix, 1, 0);
+        //top right
+        checkDirection(matrix, -1, 1);
+        //top left
+        checkDirection(matrix, -1, -1);
+        //bottom right
+        checkDirection(matrix, 1, 1);
+        //bottom left
+        checkDirection(matrix, 1, -1);
         return matrix;
+    }
+
+    @Override
+    public String toString() {
+        return "Q";
     }
 }
