@@ -7,8 +7,10 @@ import chess.ChessPiece;
 import chess.Color;
 
 public class King extends ChessPiece {
-    public King(Board board, Color color) {
+    private ChessMatch chessMatch;
+    public King(Board board, Color color, ChessMatch chessMatch) {
         super(board, color);
+        this.chessMatch = chessMatch;
     }
     @Override
     public String toString() {
@@ -19,7 +21,40 @@ public class King extends ChessPiece {
     public boolean[][] possibleMoves() {
         boolean[][] matrix = new boolean[ChessMatch.BOARD_DIMENSIONS][ChessMatch.BOARD_DIMENSIONS];
         checkSurroundingSpaces(matrix);
+        castling(matrix);
         return matrix;
+    }
+
+    private boolean testRookCastling(Position position) {
+        ChessPiece p = (ChessPiece) getBoard().piece(position);
+        return p instanceof Rook && p.getColor() == getColor() && p.getMoveCount() == 0;
+    }
+
+    private void castling(boolean[][] matrix) {
+        kingSideRook(matrix);
+        queenSideRook(matrix);
+    }
+
+    private void kingSideRook(boolean[][] matrix) {
+        if (getMoveCount() == 0 && !chessMatch.isCheck()) {
+            Position position1 = new Position(position.getRow(), position.getColumn() + 3);
+            if (testRookCastling(position1)) {
+                if (!getBoard().thereIsAPiece(position.getRow(), position.getColumn() + 1) && !getBoard().thereIsAPiece(position.getRow(), position.getColumn() + 2)) {
+                    matrix[position.getRow()][position.getColumn() + 2] = true;
+                }
+            }
+        }
+    }
+
+    private void queenSideRook(boolean[][] matrix) {
+        if (getMoveCount() == 0 && !chessMatch.isCheck()) {
+            Position position1 = new Position(position.getRow(), position.getColumn() - 4);
+            if (testRookCastling(position1)) {
+                if (!getBoard().thereIsAPiece(position.getRow(), position.getColumn() - 1) && !getBoard().thereIsAPiece(position.getRow(), position.getColumn() - 2) && !getBoard().thereIsAPiece(position.getRow(), position.getColumn() - 3)) {
+                    matrix[position.getRow()][position.getColumn() - 2] = true;
+                }
+            }
+        }
     }
 
     private void checkSurroundingSpaces(boolean[][] matrix) {
